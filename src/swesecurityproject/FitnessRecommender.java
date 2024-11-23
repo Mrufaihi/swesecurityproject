@@ -12,12 +12,11 @@ public class FitnessRecommender {
      // valid medical history inputs
     private static final Set<String> VALID_MEDICAL_HISTORY = new HashSet<>(Arrays.asList(
         "severe chest pain", "stroke", "heart attack", 
-        "severe asthma", "recent surgery", "severe joint pain"));
+        "severe asthma", "recent surgery", "severe joint pain", "none"));
     // valid fitness goal inputs
     private static final Set<String> VALID_FITNESS_GOALS = new HashSet<>(Arrays.asList(
         "weight loss", "muscle building", "improve flexibility", 
-        "cardiovascular health", "stress relief"
-    ));
+        "cardiovascular health", "stress relief"));
     // valid fitness level inputs
     private static final Set<String> VALID_FITNESS_LEVELS = new HashSet<>(Arrays.asList(
         "beginner", "intermediate", "advanced"
@@ -73,15 +72,24 @@ public class FitnessRecommender {
             );
             
             if (hasCondition.equals("yes")) {
-                System.out.print("###\nsevere chest pain\nstroke\nheart attack\nsevere asthma\nrecent surgery\nsevere joint pain \n###\n Please specify if you have had any of the above:");
+                System.out.print("###\nsevere chest pain\nstroke\nheart attack\nsevere asthma\nrecent surgery\nsevere joint pain \n###\n Please specify if you have had any of the above (or enter 'none' if not listed):");
                 String medicalHistory = validateInput(
                     scanner.nextLine(),
                     VALID_MEDICAL_HISTORY,
                     "medical history"
                 );
-                
-                System.out.println("## Important ## \n Due to your condition ("+ medicalHistory +"), you must consult a healthcare professional before starting any fitness program that may risk your life.");
+
+            // Modified condition handling
+            if (medicalHistory.equals("none")) {
+            // Proceed to fitness goals if condition is "none"
+            System.out.println("non-severe condition, Proceeding with fitness plan recommendations...");
+            } else {
+            // Exit with warning for choosen medical condition
+            System.out.println("## Important ## \nDue to your condition (" + medicalHistory + 
+                             "), you must consult a healthcare professional before starting any fitness program.");
                 return;
+            }       
+
             };
             
             // Secure fitness goal input
